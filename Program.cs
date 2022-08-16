@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using WMN.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//connection strings 
+var connectionString = builder.Configuration.GetConnectionString("WMNDBConnection");
+builder.Services.AddDbContextPool<AppDBContext>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 

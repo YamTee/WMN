@@ -11,21 +11,21 @@
     <title>Login</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MMS.styles.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/MMS.styles.css" asp-append-version="true" />*@
 
 </head>
 
-<body style="font-family:'HarmonyOS Sans'" class="container">
+<body style="font-family:'HarmonyOS Sans' ; background-image:url('/files/ap_bg.jpg')" class="container">
 
     <div class="justify-content-around align-items-center d-flex min-vh-100">
 
-        <div class="row card-body border rounded shadow-lg">
+        <div class="row card-body border rounded shadow-lg bg-white col-sm-8" id="login-container">
 
-            <div class="col-md-2 d-block align-items-center align-self-center">
+            <div class="col-md-2 d-block align-items-center align-self-center ms-auto me-auto">
                 <img src="/files/appul.svg" style="width:150px" />
             </div>
 
-            <div class="col-md-6 mt-5 mb-5 ">
+            <div class="col-md-6 mt-5 mb-5 ms-auto me-auto">
 
                 <h2>Sign In</h2>
                 <p>New User? <a href="#!" class="text-decoration-none">Create Account</a></p>
