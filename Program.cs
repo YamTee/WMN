@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WMN.Models;
+using WMNDataAccess.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
