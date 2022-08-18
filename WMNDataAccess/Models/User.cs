@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WMNDataAccess.Models
 {
@@ -14,29 +10,45 @@ namespace WMNDataAccess.Models
 
         [Required]
         [MaxLength(50)]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string EmailID { get; set; }
+        [DataType(DataType.EmailAddress)]
+        [DisplayName("Email Address")]
+        public string EmailID { get; set; } = null!;
 
         [Required]
-        public string Password { get; set; }
+        [StringLength(100, ErrorMessage = "Password must have {2} character", MinimumLength = 8)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}$",
+            ErrorMessage = "Password must contain: Minimum 8 characters atleast 1 UpperCase Alphabet, 1 LowerCase Alphabet, 1 Number and 1 Special Character")]
+        public string Password { get; set; } = null!;
 
         [Required]
         [MaxLength(50)]
-        public string FirstName { get; set; }
+        [DisplayName("First Name")]
+        public string FirstName { get; set; } = null!;
 
         [MaxLength(50)]
+#nullable enable
         public string? MiddleName { get; set; }
 
         [MaxLength(50)]
+#nullable enable
         public string? LastName { get; set; }
 
+#nullable enable
         public Gender? Gender { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+#nullable enable
         public DateTime? DateOfBirth { get; set; }
-        public int? PhoneNumber { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+#nullable enable
+        public string? PhoneNumber { get; set; }
     }
 
     public enum Gender
