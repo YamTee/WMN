@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WMNDataAccess.Models
 {
@@ -49,6 +50,10 @@ namespace WMNDataAccess.Models
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
 #nullable enable
         public string? PhoneNumber { get; set; }
+
+        [NotMapped]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Please agree to Terms of Service")]
+        public bool TermsOfService { get; set; }
     }
 
     public enum Gender
