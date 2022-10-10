@@ -3,7 +3,7 @@
 }
 
 @using WMNDataAccess.Models
-@model User
+@model Login
 
 <div class="justify-content-around align-items-center d-flex min-vh-100">
 
@@ -45,7 +45,7 @@
 
                 <div class="mb-3">
                     <label asp-for="Password" class="form-label">Password</label>
-                    <input asp-for="Password" class="form-control">
+                    <input asp-for="Password" class="form-control" type="password">
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
@@ -62,4 +62,9 @@
 </div>
 
 
+@section Scripts{
+    @{
+        <partial name="/Views/Shared/_ValidationScriptsPartial.cshtml" />
 
+    }
+    }

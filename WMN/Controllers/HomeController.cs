@@ -3,9 +3,12 @@ using System.Diagnostics;
 using WMN.Models;
 using WMNDataAccess.Models;
 using WMNDataAccess.DataAccess;
+using Microsoft.AspNetCore.Identity;
+using WMN.Attributes;
 
 namespace WMN.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,9 +20,39 @@ namespace WMN.Controllers
             _db = db;
         }
 
+        [HttpGet]
+        [Route("sign-in")]
         public IActionResult Index()
         {
-            return View();
+            Login user = new Login();
+            return View(user);
+        }
+
+        [HttpPost]
+        [Route("sign-in")]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(Login user)
+        {
+            if (user.EmailID != null && user.Password != null)
+            {
+                User validateUser = new User();
+
+                if (_db.Users.FirstOrDefault(x => x.EmailID == user.EmailID) != null)
+                {
+                    var newUser = _db.Users.First(x => x.EmailID == user.EmailID);
+                    var passwordHasher = new PasswordHasher<Login>();
+                    if (passwordHasher.VerifyHashedPassword(user, newUser.Password, user.Password) == PasswordVerificationResult.Success)
+                    {
+                        HttpContext.Session.SetInt32("UserID", newUser.UserID);
+                        HttpContext.Session.SetString("UserName", newUser.UserName);
+                        return RedirectToAction("Dashboard", "Dashboard");
+                    }
+                    else ModelState.AddModelError("Password", "Password is wrong!");
+                }
+                else ModelState.AddModelError("EmailID", "Email Address is wrong!");
+            }
+
+            return View(user);
         }
 
         [HttpGet]
@@ -32,10 +65,13 @@ namespace WMN.Controllers
 
         [HttpPost]
         [Route("register-user")]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateUser(User user)
         {
             if (ModelState.IsValid)
             {
+                var passwordHasher = new PasswordHasher<User>();
+                user.Password = passwordHasher.HashPassword(user, user.Password);
                 _db.Users.Add(user);
                 _db.SaveChanges();
                 return RedirectToAction("Index");

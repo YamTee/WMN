@@ -62,4 +62,20 @@ namespace WMNDataAccess.Models
         Female,
         Others
     }
+
+    public class Login
+    {
+        [Required]
+        [MaxLength(50)]
+        [DataType(DataType.EmailAddress)]
+        [DisplayName("Email Address")]
+        public string EmailID { get; set; } = null!;
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Password must have {2} character", MinimumLength = 8)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}$",
+            ErrorMessage = "Password must contain: Minimum 8 characters atleast 1 UpperCase Alphabet, 1 LowerCase Alphabet, 1 Number and 1 Special Character")]
+        public string Password { get; set; } = null!;
+
+    }
 }
